@@ -5,6 +5,8 @@ sys.path.insert(0, '/Users/jblau407/Code/')
 from adventofcode import problemInput
 
 day = 3
+oxygenCounter = 0
+c02counter = 0
 
 def formatter(input):
     x = input.split()
@@ -51,12 +53,77 @@ def binary2int(binary):
         i += 1
     return int_val
 
+def problem2_format(x):
+    a = []
+    for i in range(len(x)): 
+        num_str = f'{x[i]:012d}'
+        a.append(num_str)
+
+    return a
+
+def oxygenGen(a, oxygenCounter): 
+    if (len(a)) == 1:
+        return binary2int(int(a[0]))
+
+    zeros, ones = 0, 0
+    zero_list, one_list = [], [] 
+
+    for i in range(len(a)):
+        correct_num = a[i]
+        num_int = int(correct_num[oxygenCounter])
+        if num_int == 1:
+            ones += 1
+            one_list.append(a[i]) 
+        else:
+            zeros += 1
+            zero_list.append(a[i])
+
+    if zeros > ones:
+        oxygenCounter += 1
+        print(zero_list)
+        oxygenGen(zero_list, oxygenCounter)
+    else: 
+        oxygenCounter += 1
+        print(one_list)
+        oxygenGen(one_list, oxygenCounter)
+
+def c02Gen(a, c02counter): #### this func is very incomplete/a copy/paste of the above func
+    if (len(a)) == 1:
+        return a 
+
+    zeros, ones = 0, 0
+    zero_list, one_list = [], [] 
+
+    for i in range(len(a)):
+        correct_num = a[i]
+        num_int = int(correct_num[oxygenCounter])
+        if num_int == 1:
+            ones += 1
+            one_list.append(a[i]) 
+        else:
+            zeros += 1
+            zero_list.append(a[i])
+
+   
+    if zeros > ones:
+        c02counter += 1
+        print(zero_list)
+        oxygenGen(zero_list, oxygenCounter)
+    else: 
+        c02counter += 1
+        print(one_list)
+        oxygenGen(one_list, oxygenCounter)
+
+
 def main(): 
-    input = problemInput.get_input(day)
-    x = formatter(input)
+    input = (problemInput.get_input(day))
+    x = (formatter(input))
     y,z = gamma_epsilon(problem1(x))
     a,b = binary2int(join_list(y)), binary2int(join_list(z))
-    print(a*b)   
+    print(a*b) 
+    a = (problem2_format(x))
+    oxy = oxygenGen(a, oxygenCounter)
+    print(oxy)
 
 if __name__ == "__main__":
     main()
