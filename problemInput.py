@@ -14,4 +14,3 @@ def get_input(day):
         return r.text 
     else:
         sys.exit(f"/api/alerts response: {r.status_code}: {r.reason} \n{r.content}")
-
