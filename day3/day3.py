@@ -62,8 +62,9 @@ def problem2_format(x):
     return a
 
 def oxygenGen(a, oxygenCounter): 
-    if (len(a)) == 1:
-        return binary2int(int(a[0]))
+    if len(a) == 1: 
+        print('test')
+        return a[0]
 
     zeros, ones = 0, 0
     zero_list, one_list = [], [] 
@@ -89,6 +90,7 @@ def oxygenGen(a, oxygenCounter):
 
 def c02Gen(a, c02counter): #### this func is very incomplete/a copy/paste of the above func
     if (len(a)) == 1:
+        print('test')
         return a 
 
     zeros, ones = 0, 0
@@ -96,7 +98,7 @@ def c02Gen(a, c02counter): #### this func is very incomplete/a copy/paste of the
 
     for i in range(len(a)):
         correct_num = a[i]
-        num_int = int(correct_num[oxygenCounter])
+        num_int = int(correct_num[c02counter])
         if num_int == 1:
             ones += 1
             one_list.append(a[i]) 
@@ -105,14 +107,14 @@ def c02Gen(a, c02counter): #### this func is very incomplete/a copy/paste of the
             zero_list.append(a[i])
 
    
-    if zeros > ones:
+    if zeros < ones:
         c02counter += 1
         print(zero_list)
-        oxygenGen(zero_list, oxygenCounter)
+        oxygenGen(zero_list, c02counter)
     else: 
         c02counter += 1
         print(one_list)
-        oxygenGen(one_list, oxygenCounter)
+        oxygenGen(one_list, c02counter)
 
 
 def main(): 
@@ -122,8 +124,8 @@ def main():
     a,b = binary2int(join_list(y)), binary2int(join_list(z))
     print(a*b) 
     a = (problem2_format(x))
-    oxy = oxygenGen(a, oxygenCounter)
-    print(oxy)
+    c02 = oxygenGen(a, oxygenCounter), c02Gen(a, c02counter)
+    print(c02)
 
 if __name__ == "__main__":
     main()
