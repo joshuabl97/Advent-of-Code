@@ -13,4 +13,4 @@ def get_input(day):
     if r.status_code == 200:
         return r.text 
     else:
-        sys.exit(f"/api/alerts response: {r.status_code}: {r.reason} \n{r.content}")
+        sys.exit(f"API response: {r.status_code}: {r.reason} \n{r.content}")
