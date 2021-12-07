@@ -82,11 +82,11 @@ def oxygenGen(a, oxygenCounter):
     if zeros > ones:
         oxygenCounter += 1
         print(zero_list)
-        oxygenGen(zero_list, oxygenCounter)
+        return oxygenGen(zero_list, oxygenCounter)
     else: 
         oxygenCounter += 1
         print(one_list)
-        oxygenGen(one_list, oxygenCounter)
+        return oxygenGen(one_list, oxygenCounter)
 
 def c02Gen(a, c02counter): 
     if (len(a)) == 1:
@@ -110,11 +110,11 @@ def c02Gen(a, c02counter):
     if zeros > ones:
         c02counter += 1
         print(one_list)
-        oxygenGen(one_list, c02counter)
+        return oxygenGen(one_list, c02counter)
     else: 
         c02counter += 1
         print(zero_list)
-        oxygenGen(zero_list, c02counter)
+        return oxygenGen(zero_list, c02counter)
 
 
 def main(): 
@@ -123,9 +123,14 @@ def main():
     y,z = gamma_epsilon(problem1(x))
     a,b = binary2int(join_list(y)), binary2int(join_list(z))
     print(a*b) 
+    print(a, b)
+    """
     a = (problem2_format(x))
     c02, oxy = c02Gen(a, c02counter), oxygenGen(a, oxygenCounter)
     print(c02, oxy)
+    c,d = binary2int(join_list(c02)), binary2int(join_list(oxy)) 
+    print(c * d)
+    """
 
 if __name__ == "__main__":
     main()
