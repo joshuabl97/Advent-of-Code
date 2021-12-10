@@ -83,6 +83,16 @@ def problem2(before):
         for i in range(len(dict_nums[1])):
             if dict_nums[1][i] != dict_values['f']:
                 dict_values['c'] = dict_nums[1][i]
+        
+        #step 5: grab unknown vals in 4 and check to see if they exist in 0,9
+        ### if it exists in ten_digits[i] == 6 that value is 9
+        ### the remaining value in ten_digits[i] == 6 is 0
+
+        #step 6: compare 6,9 the different value that isn't present in 1 is e
+
+        #step 7: combine values of 6 & 9 into a single dict, the value that isn't present in 0 is d
+
+        #step 8: the value that isn't present in the values list from 4 is b && the remaining value is g
         print(dict_values)
         print(dict_nums) 
         print('seperator')
