@@ -74,11 +74,17 @@ def problem2(before):
                 bool_list = [x in li1 for x in li2]
                 if bool_list[0] == False or bool_list[1] == False:
                     dict_nums[6] = ten_digits[j]
-        print(dict_nums)
-
-        #step 4: the digit in 6 that is in one is f, the remaining digit in 1 is c    
-
         
+        #step 4: the digit in 6 that is in 1 is f, the remaining digit in 1 is c
+        a_set = set(dict_nums[1])
+        b_set = set(dict_nums[6])
+        f_val = list(a_set&b_set)
+        dict_values['f'] = f_val[0]
+        for i in range(len(dict_nums[1])):
+            if dict_nums[1][i] != dict_values['f']:
+                dict_values['c'] = dict_nums[1][i]
+        print(dict_values)
+        print(dict_nums) 
         print('seperator')
 def main():
     print(problem1(parser()[1]))
