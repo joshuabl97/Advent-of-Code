@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
+from os import sep
+
+
 def parser():
-    with open('/Users/jblau407/Code/adventofcode/day8/smallTest.txt', 'r') as f:
+    with open('/Users/jblau407/Code/adventofcode/day8/input.txt', 'r') as f:
         lines = f.readlines()
         before,after = [],[]
         for line in lines:
@@ -38,7 +41,6 @@ def problem2(before, after):
             nested_digits.append(list(after_list[j]))
         after_digits.append(nested_digits)
 
-    print(after_digits)
 
     for i in range(len(before)): 
         before_list = (before[i].split(' '))
@@ -48,8 +50,11 @@ def problem2(before, after):
             nested_digits.append(list(before_list[j]))
         all_digits.append(nested_digits)
 
+    output_value = 0
     for i in range(len(all_digits)):
         ten_digits = all_digits[i] 
+        sep_digits = after_digits[i]
+
         dict_num_keys = [0,1,2,3,4,5,6,7,8,9]
         dict_nums = {}
         for i in dict_num_keys:
@@ -124,7 +129,7 @@ def problem2(before, after):
         dict_values['G'] = list(set(a) - set([i for i in dict_values.values() if i]))[0] 
 
         #step 9: assign the rest of nums using values
-        two = set(map(dict_values.get, ['A','C','D','E','G']))
+        two = list(map(dict_values.get, ['A','C','D','E','G']))
         three = list(map(dict_values.get, ['A','C','D','F','G']))
         five = list(map(dict_values.get, ['A','B','D','F','G']))
 
@@ -137,9 +142,41 @@ def problem2(before, after):
                 elif len(list(set(ten_digits[i])-set(five))) == 0:
                     dict_nums[5] = ten_digits[i]
 
-        print(dict_values)
-        print(dict_nums) 
-        print('seperator')
+        #step 10: solve for after digit values and append int to list
+        after_ints = []
+
+        zero = list(map(dict_values.get, ['A','B','C','E','F','G'])) 
+        six = list(map(dict_values.get, ['A','B','D','E','F','G']))
+        nine = list(map(dict_values.get, ['A','B','C','D','F','G']))        
+
+        for i in range(len(sep_digits)):
+            if len(sep_digits[i]) == 7:
+                after_ints.append(8)
+            elif len(sep_digits[i]) == 2:
+                after_ints.append(1)
+            elif len(sep_digits[i]) == 4:
+                after_ints.append(4)
+            elif len(sep_digits[i]) == 3:
+                after_ints.append(7)
+            elif len(sep_digits[i]) == 5:
+                if len(list(set(sep_digits[i]) - set(two))) == 0:
+                    after_ints.append(2)
+                elif len(list(set(sep_digits[i]) - set(three))) == 0:
+                    after_ints.append(3)
+                elif len(list(set(sep_digits[i]) - set(five))) == 0:
+                    after_ints.append(5)
+            elif len(list(set(sep_digits[i]) - set(zero))) == 0:
+                after_ints.append(0)
+            elif len(list(set(sep_digits[i]) - set(six))) == 0:
+                after_ints.append(6)
+            elif len(list(set(sep_digits[i]) - set(nine))) == 0:
+                after_ints.append(9) 
+                
+        s = [str(i) for i in after_ints]
+        res = int("".join(s))
+        output_value += res  
+
+    return output_value
 def main():
     print(problem1(parser()[1]))
     before, after = parser()
