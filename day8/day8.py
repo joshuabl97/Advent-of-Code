@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-from os import sep
-
-
 def parser():
     with open('/Users/jblau407/Code/adventofcode/day8/input.txt', 'r') as f:
         lines = f.readlines()
