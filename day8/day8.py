@@ -111,7 +111,6 @@ def problem2(before, after):
                     dict_nums[0] = ten_digits[j]
 
         #step 6: compare 6,9 the different value that isn't present in 1 is e
-        ### if solution doesn't work, start over here
         six_nine_diff = list(set(dict_nums[6]) - set(dict_nums[9]))
         dict_values['E'] = six_nine_diff[0]
         
@@ -174,6 +173,7 @@ def problem2(before, after):
         output_value += res  
 
     return output_value
+    
 def main():
     print(problem1(parser()[1]))
     before, after = parser()
