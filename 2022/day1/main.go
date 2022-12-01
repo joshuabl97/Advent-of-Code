@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-var filePath = flag.String("f", "input.txt", "path to the input path")
+var filePath = flag.String("f", "input.txt", "path to the input file")
 
 /*
 In case the Elves get hungry and need extra snacks,
