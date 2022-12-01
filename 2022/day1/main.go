@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -51,23 +52,11 @@ func problem2(input []int) int {
 		currentElf += cals
 	}
 
-	var topThreeCalories []int
-	for j := 0; j <= 2; j++ {
-		maxNum := calorieCounts[0]
-		var sliceIndex int
-		for i := 0; i < len(calorieCounts); i++ {
-			if calorieCounts[i] > maxNum {
-				maxNum = calorieCounts[i]
-				sliceIndex = i
-			}
-		}
-		topThreeCalories = append(topThreeCalories, maxNum)
-		calorieCounts = append(calorieCounts[:sliceIndex], calorieCounts[sliceIndex+1:]...)
-	}
+	sort.Ints(calorieCounts)
 
 	var totalCals int
-	for _, cals := range topThreeCalories {
-		totalCals += cals
+	for i := 1; i <= 3; i++ {
+		totalCals += calorieCounts[len(calorieCounts)-i]
 	}
 
 	return totalCals
