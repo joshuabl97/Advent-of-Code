@@ -33,15 +33,6 @@ func countCals(input []int) []int {
 }
 
 /*
-In case the Elves get hungry and need extra snacks,
-they need to know which Elf to ask: they'd like to know how many
-Calories are being carried by the Elf carrying the most Calories.
-*/
-func problem1(calorieCounts []int) int {
-	return calorieCounts[len(calorieCounts)-1]
-}
-
-/*
 The Elves would instead like to know the total Calories carried by
 the top three Elves carrying the most Calories.
 (The elf to english dictionary is missing a few key words)
@@ -84,6 +75,11 @@ func main() {
 	flag.Parse()
 	input := parseInput(*filePath)
 	calorieCounts := countCals(input)
-	fmt.Printf("Problem 1: %v \n", problem1(calorieCounts))
+	/*
+		In case the Elves get hungry and need extra snacks,
+		they need to know which Elf to ask: they'd like to know how many
+		Calories are being carried by the Elf carrying the most Calories.
+	*/
+	fmt.Printf("Problem 1: %v \n", calorieCounts[len(calorieCounts)-1])
 	fmt.Printf("Problem 2: %v \n", problem2(calorieCounts))
 }
