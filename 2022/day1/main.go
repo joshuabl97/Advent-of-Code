@@ -27,7 +27,7 @@ func countCals(input []int) []int {
 	}
 
 	sort.Ints(calorieCounts)
-
+	fmt.Printf("%v \n", calorieCounts)
 	return calorieCounts
 }
 
@@ -36,7 +36,7 @@ The Elves would instead like to know the total Calories carried by
 the top three Elves carrying the most Calories.
 (The elf to english dictionary is missing a few key words)
 */
-func problem2(calorieCounts []int) int {
+func sumTopThree(calorieCounts []int) int {
 	var totalCals int
 	for i := 1; i <= 3; i++ {
 		totalCals += calorieCounts[len(calorieCounts)-i]
@@ -80,5 +80,5 @@ func main() {
 		Calories are being carried by the Elf carrying the most Calories.
 	*/
 	fmt.Printf("Problem 1: %v \n", calorieCounts[len(calorieCounts)-1])
-	fmt.Printf("Problem 2: %v \n", problem2(calorieCounts))
+	fmt.Printf("Problem 2: %v \n", sumTopThree(calorieCounts))
 }
