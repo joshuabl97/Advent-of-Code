@@ -15,7 +15,6 @@ var filePath = flag.String("f", "input.txt", "path to the input file")
 // returns a list of the total number of calories that each elf possesses
 // sorted from lowest to highest
 func countCals(input []int) []int {
-	// this is a slice of the total number of calories that each elf possesses
 	var calorieCounts []int
 	var currentElf int
 	for _, cals := range input {
