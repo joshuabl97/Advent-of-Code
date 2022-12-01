@@ -16,19 +16,15 @@ In case the Elves get hungry and need extra snacks,
 they need to know which Elf to ask: they'd like to know how many
 Calories are being carried by the Elf carrying the most Calories.
 */
-func problem1(input []string) int {
+func problem1(input []int) int {
 	var mostCalories int
 	var currentElf int
 	for _, cals := range input {
-		if cals == "" {
+		if cals == 0 {
 			currentElf = 0
 			continue
 		}
-		calInt, err := strconv.Atoi(cals)
-		if err != nil {
-			log.Fatal(err)
-		}
-		currentElf += calInt
+		currentElf += cals
 		if currentElf > mostCalories {
 			mostCalories = currentElf
 		}
@@ -42,21 +38,17 @@ The Elves would instead like to know the total Calories carried by
 the top three Elves carrying the most Calories.
 (The elf to english dictionary is missing a few key words)
 */
-func problem2(input []string) int {
+func problem2(input []int) int {
 	// this is a slice of the total number of calories that each elf possesses
 	var calorieCounts []int
 	var currentElf int
 	for _, cals := range input {
-		if cals == "" {
+		if cals == 0 {
 			calorieCounts = append(calorieCounts, currentElf)
 			currentElf = 0
 			continue
 		}
-		calInt, err := strconv.Atoi(cals)
-		if err != nil {
-			log.Fatal(err)
-		}
-		currentElf += calInt
+		currentElf += cals
 	}
 
 	var topThreeCalories []int
@@ -81,7 +73,7 @@ func problem2(input []string) int {
 	return totalCals
 }
 
-func parseInput(filePath string) []string {
+func parseInput(filePath string) []int {
 	fileContent, err := ioutil.ReadFile(filePath)
 	if err != nil {
 		log.Fatal(err)
@@ -89,7 +81,21 @@ func parseInput(filePath string) []string {
 	text := string(fileContent)
 	input := strings.Split(text, "\n")
 	input = append(input, "")
-	return input
+
+	var calorieSlice []int
+	for _, in := range input {
+		if in == "" {
+			calorieSlice = append(calorieSlice, 0)
+			continue
+		}
+		calInt, err := strconv.Atoi(in)
+		if err != nil {
+			log.Fatal(err)
+		}
+		calorieSlice = append(calorieSlice, calInt)
+	}
+
+	return calorieSlice
 }
 
 func main() {
