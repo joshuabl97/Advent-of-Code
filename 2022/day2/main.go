@@ -19,6 +19,10 @@ func main() {
 	fmt.Printf("Problem 2: %v\n", problem2(plays))
 }
 
+// plays a game of rock, paper, scissors and returns the score
+// the opponent is stored at index 0 and the player at index 1
+// 0 if you lost, 3 if the round was a draw, and 6 if you won
+// 1 for Rock, 2 for Paper, and 3 for Scissors
 func playRPS(p []int) int {
 	if p[0] == p[1] {
 		return p[1] + 3
