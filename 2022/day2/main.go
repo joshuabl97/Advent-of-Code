@@ -101,7 +101,6 @@ func parseInput(filePath string) [][]int {
 	for scanner.Scan() {
 		game := strings.Split(scanner.Text(), " ")
 
-		// rock
 		for i, g := range game {
 			if g == "A" || g == "X" {
 				game[i] = "1"
