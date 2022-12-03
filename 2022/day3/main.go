@@ -109,7 +109,7 @@ func problem2(bags [][]string) int {
 	return count
 }
 
-// splits the elves bags (input) and contents into two compartments (comp1 & comp2)
+// takes stock of the inventory of each elf bag in a nested slice of strings
 func parseInput(filePath string) [][]string {
 	f, err := os.Open(filePath)
 
