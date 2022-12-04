@@ -29,9 +29,8 @@ func problem1(group1 [][]int, group2 [][]int) int {
 	var count int
 
 	for i := 0; i < len(group1); i++ {
-		if group1[i][0] >= group2[i][0] && group1[i][1] <= group2[i][1] {
-			count++
-		} else if group1[i][0] <= group2[i][0] && group1[i][1] >= group2[i][1] {
+		if group1[i][0] >= group2[i][0] && group1[i][1] <= group2[i][1] ||
+			group1[i][0] <= group2[i][0] && group1[i][1] >= group2[i][1] {
 			count++
 		}
 	}
