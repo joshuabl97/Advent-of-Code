@@ -46,13 +46,7 @@ func problem1(stacks map[int]string, instructions [][]int) string {
 	return topStacks
 }
 
-/*
-The Elves have a drawing of the starting stacks of crates and the rearrangement procedure
-The Elves just need to know which crate will end up on top of each stack
-You can move multiple crates at once
-Each slice in the instructions are parsed like 'move 1 from 2 to 1' -> [1,2,1]
-Each string in the map goes from top to bottom of the stack
-*/
+//Same as problem 1, but you can move multiple crates at once
 func problem2(stacks map[int]string, instructions [][]int) string {
 	for _, instruction := range instructions {
 		stacks[instruction[2]] = string(stacks[instruction[1]][:instruction[0]]) + stacks[instruction[2]]
