@@ -1,6 +1,7 @@
 package main
 
 import (
+	"aoc2022/reusable"
 	"bufio"
 	"flag"
 	"fmt"
@@ -28,7 +29,7 @@ func problem1(str string) int {
 	s := strings.Split(str, "")
 
 	for i := 0; i < len(s); i++ {
-		if !dupeExist(s[i : i+4]) {
+		if !reusable.DupeExist(s[i : i+4]) {
 			return i + 4
 		}
 	}
@@ -46,28 +47,12 @@ func problem2(str string) int {
 	s := strings.Split(str, "")
 
 	for i := 0; i < len(s); i++ {
-		if !dupeExist(s[i : i+14]) {
+		if !reusable.DupeExist(s[i : i+14]) {
 			return i + 14
 		}
 	}
 
 	return 0
-}
-
-// checks if there are multiple of the same value in the same array of strings
-// i.e ['a','a'] -> true ['a','b'] -> false
-func dupeExist(arr []string) bool {
-	visited := make(map[string]bool, 0)
-
-	for i := 0; i < len(arr); i++ {
-		if visited[arr[i]] {
-			return true
-		} else {
-			visited[arr[i]] = true
-		}
-	}
-
-	return false
 }
 
 func parseInput(filePath string) string {
