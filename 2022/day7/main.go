@@ -11,57 +11,48 @@ import (
 )
 
 var filePath = flag.String("f", "input.txt", "path to the input file")
-var level int
 
 type Directory struct {
-	cwd       string
-	files     map[string]int
-	fileSizes int
-	parent    *Directory
-	children  []*Directory
+	cwd      string
+	files    map[string]int
+	dirSize  int
+	parent   *Directory
+	children []*Directory
 }
 
 func main() {
 	flag.Parse()
 	filesystem := parseInput(*filePath)
-	problem1(&filesystem, nil)
-	fmt.Printf("%T %v\n", filesystem.parent, filesystem.parent)
-	fmt.Printf("%T %v\n", filesystem.children[0], filesystem.children[0])
+	fmt.Printf("%+v\n", filesystem)
+	getDirSizes(&filesystem)
+	fmt.Printf("%+v\n", filesystem)
+	fmt.Printf("%+v\n", filesystem.children[0])
+	fmt.Printf("%+v\n", filesystem.children[0].children[0])
+	fmt.Printf("%+v\n", filesystem.children[1])
+	problem1(&filesystem)
+	fmt.Printf("Problem 1: %v\n", p1count)
 }
 
-func problem1(root *Directory, q []*Directory) {
-	var queue []*Directory
-	var nextLevel []*Directory
+var p1count int
 
-	if len(q) > 0 {
-		queue = append(queue, q...)
+func problem1(d *Directory) {
+	if d.dirSize <= 100000 {
+		p1count += d.dirSize
 	}
 
-	if level == 0 {
-		queue = append(queue, root)
-	}
-
-	for len(queue) > 0 {
-		nextLevel = append(nextLevel, queue[0].children...)
-		fmt.Printf("%v\n", queue[0].fileSizes)
-		for _, s := range queue[0].children {
-			addUp(s, s.fileSizes)
-		}
-		fmt.Printf("%v\n", queue[0].fileSizes)
-
-		queue = queue[1:]
-		level++
-	}
-	if len(nextLevel) > 0 {
-		fmt.Printf("%v\n", nextLevel)
-		problem1(root, nextLevel)
+	for _, child := range d.children {
+		problem1(child)
 	}
 }
 
-func addUp(dir *Directory, addMe int) {
-	if dir.parent != nil {
-		dir.parent.fileSizes += addMe
-		addUp(dir.parent, addMe)
+func getDirSizes(d *Directory) {
+	for _, v := range d.files {
+		d.dirSize += v
+	}
+
+	for _, child := range d.children {
+		getDirSizes(child)
+		d.dirSize += child.dirSize
 	}
 }
 
@@ -110,7 +101,6 @@ func parseInput(filePath string) Directory {
 		}
 
 		if s, err := strconv.Atoi(line[0]); err == nil {
-			current.fileSizes += s
 			current.files[line[1]] = s
 		}
 	}
