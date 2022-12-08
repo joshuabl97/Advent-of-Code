@@ -23,16 +23,37 @@ type Directory struct {
 func main() {
 	flag.Parse()
 	filesystem := parseInput(*filePath)
-	fmt.Printf("%+v\n", filesystem)
 	getDirSizes(&filesystem)
-	fmt.Printf("%+v\n", filesystem)
-	fmt.Printf("%+v\n", filesystem.children[0])
-	fmt.Printf("%+v\n", filesystem.children[0].children[0])
-	fmt.Printf("%+v\n", filesystem.children[1])
 	problem1(&filesystem)
 	fmt.Printf("Problem 1: %v\n", p1count)
+	freeDiskSpace := 70000000 - filesystem.dirSize
+	fmt.Printf("%v\n", freeDiskSpace)
+	problem2(&filesystem, freeDiskSpace)
+	fmt.Printf("%v\n", p2sizes)
+	smallestNumber := p2sizes[0]
+	for _, num := range p2sizes {
+		if num < smallestNumber {
+			smallestNumber = num
+		}
+	}
+	fmt.Printf("Problem 2: %v\n", smallestNumber)
 }
 
+func getDirSizes(d *Directory) {
+	for _, v := range d.files {
+		d.dirSize += v
+	}
+
+	for _, child := range d.children {
+		getDirSizes(child)
+		d.dirSize += child.dirSize
+	}
+}
+
+/*
+find all of the directories with a total size of at
+most 100000, then calculate the sum of their total sizes
+*/
 var p1count int
 
 func problem1(d *Directory) {
@@ -45,14 +66,15 @@ func problem1(d *Directory) {
 	}
 }
 
-func getDirSizes(d *Directory) {
-	for _, v := range d.files {
-		d.dirSize += v
+var p2sizes []int
+
+func problem2(d *Directory, freeDiskSpace int) {
+	if d.dirSize > 30000000-freeDiskSpace {
+		p2sizes = append(p2sizes, d.dirSize)
 	}
 
 	for _, child := range d.children {
-		getDirSizes(child)
-		d.dirSize += child.dirSize
+		problem2(child, freeDiskSpace)
 	}
 }
 
