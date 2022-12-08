@@ -45,7 +45,7 @@ func problem1(root *Directory, q []*Directory) {
 		nextLevel = append(nextLevel, queue[0].children...)
 		fmt.Printf("%v\n", queue[0].fileSizes)
 		for _, s := range queue[0].children {
-			addUp(s)
+			addUp(s, s.fileSizes)
 		}
 		fmt.Printf("%v\n", queue[0].fileSizes)
 
@@ -58,10 +58,10 @@ func problem1(root *Directory, q []*Directory) {
 	}
 }
 
-func addUp(dir *Directory) {
+func addUp(dir *Directory, addMe int) {
 	if dir.parent != nil {
-		dir.parent.fileSizes += dir.fileSizes
-		addUp(dir.parent)
+		dir.parent.fileSizes += addMe
+		addUp(dir.parent, addMe)
 	}
 }
 
