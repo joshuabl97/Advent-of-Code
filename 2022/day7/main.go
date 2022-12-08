@@ -25,17 +25,24 @@ func main() {
 	filesystem := parseInput(*filePath)
 	getDirSizes(&filesystem)
 	problem1(&filesystem)
+
 	fmt.Printf("Problem 1: %v\n", p1count)
+
 	freeDiskSpace := 70000000 - filesystem.dirSize
-	fmt.Printf("%v\n", freeDiskSpace)
+
 	problem2(&filesystem, freeDiskSpace)
-	fmt.Printf("%v\n", p2sizes)
+	/*
+		Find the smallest directory that, if deleted, would free up enough space on the
+		filesystem to run the update. What is the total size of that directory?
+	*/
 	smallestNumber := p2sizes[0]
+
 	for _, num := range p2sizes {
 		if num < smallestNumber {
 			smallestNumber = num
 		}
 	}
+
 	fmt.Printf("Problem 2: %v\n", smallestNumber)
 }
 
@@ -66,6 +73,11 @@ func problem1(d *Directory) {
 	}
 }
 
+/*
+The total disk space available to the filesystem is 70000000. To run the update,
+you need unused space of at least 30000000. You need to find a directory you can
+delete that will free up enough space to run the update.
+*/
 var p2sizes []int
 
 func problem2(d *Directory, freeDiskSpace int) {
