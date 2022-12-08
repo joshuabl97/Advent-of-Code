@@ -46,6 +46,8 @@ func main() {
 	fmt.Printf("Problem 2: %v\n", smallestNumber)
 }
 
+// populates the total directory size for each Directory in tree
+// (including the value of the file sizes in their subdirectories recussively)
 func getDirSizes(d *Directory) {
 	for _, v := range d.files {
 		d.dirSize += v
