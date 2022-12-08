@@ -11,54 +11,61 @@ import (
 )
 
 var filePath = flag.String("f", "input.txt", "path to the input file")
+var level int
 
-type directoryContents struct {
-	cwd         string
-	directories []string
-	files       map[string]int
+type Directory struct {
+	cwd       string
+	files     map[string]int
+	fileSizes int
+	parent    *Directory
+	children  []*Directory
 }
 
 func main() {
 	flag.Parse()
 	filesystem := parseInput(*filePath)
-	fmt.Printf("Problem 1: %v\n", problem1(filesystem))
+	problem1(&filesystem, nil)
+	fmt.Printf("%T %v\n", filesystem.parent, filesystem.parent)
+	fmt.Printf("%T %v\n", filesystem.children[0], filesystem.children[0])
 }
 
-func dirSum(filesystem []directoryContents, folder string) int {
-	var count int
+func problem1(root *Directory, q []*Directory) {
+	var queue []*Directory
+	var nextLevel []*Directory
 
-	for _, dir := range filesystem {
-		if dir.cwd == folder {
-			for _, v := range dir.files {
-				count += v
-			}
-			for _, d := range dir.directories {
-				count += dirSum(filesystem, d)
-			}
+	if len(q) > 0 {
+		queue = append(queue, q...)
+	}
+
+	if level == 0 {
+		queue = append(queue, root)
+	}
+
+	for len(queue) > 0 {
+		nextLevel = append(nextLevel, queue[0].children...)
+		fmt.Printf("%v\n", queue[0].fileSizes)
+		for _, s := range queue[0].children {
+			addUp(s)
 		}
-	}
+		fmt.Printf("%v\n", queue[0].fileSizes)
 
-	return count
+		queue = queue[1:]
+		level++
+	}
+	if len(nextLevel) > 0 {
+		fmt.Printf("%v\n", nextLevel)
+		problem1(root, nextLevel)
+	}
 }
 
-func problem1(filesystem []directoryContents) int {
-	results := make(map[string]int)
-	var count int
-
-	for _, dir := range filesystem {
-		results[dir.cwd] = dirSum(filesystem, dir.cwd)
+func addUp(dir *Directory) {
+	if dir.parent != nil {
+		dir.parent.fileSizes += dir.fileSizes
+		addUp(dir.parent)
 	}
-
-	for _, v := range results {
-		if v <= 100000 {
-			count += v
-		}
-	}
-
-	return count
 }
 
-func parseInput(filePath string) []directoryContents {
+func parseInput(filePath string) Directory {
 	f, err := os.Open(filePath)
 
 	if err != nil {
@@ -70,62 +77,41 @@ func parseInput(filePath string) []directoryContents {
 	scanner := bufio.NewScanner(f)
 
 	var (
-		filesystem       []directoryContents
-		directoryTracker []string
-		isExist          bool
+		root    Directory
+		current *Directory
 	)
 
-filescan:
 	for scanner.Scan() {
-		if strings.Contains(scanner.Text(), "$") {
-			switch scanner.Text() {
-			case "$ cd /":
-				directoryTracker = []string{"/"}
-			case "$ cd ..":
-				if len(directoryTracker) > 0 {
-					directoryTracker = directoryTracker[:len(directoryTracker)-1]
-				}
-			case "$ ls":
-				continue filescan
+		line := strings.Split(scanner.Text(), " ")
+		if strings.HasPrefix(scanner.Text(), "$ cd") {
+			if current == nil {
+				current = &root
+				current.cwd = line[2]
+				continue
+			}
+
+			switch line[2] {
+			case "..":
+				current = current.parent
 			default:
-				directoryTracker = append(directoryTracker, strings.TrimPrefix(scanner.Text(), "$ cd "))
+				newDir := &Directory{
+					parent: current,
+					cwd:    line[2],
+				}
+				current.children = append(current.children, newDir)
+				current = newDir
 			}
 			continue
 		}
 
-		for _, f := range filesystem {
-			if f.cwd == directoryTracker[len(directoryTracker)-1] {
-				isExist = true
-			}
+		if current.files == nil {
+			m := make(map[string]int)
+			current.files = m
 		}
 
-		if !isExist {
-			pwd := directoryContents{
-				cwd: directoryTracker[len(directoryTracker)-1],
-			}
-
-			filesystem = append(filesystem, pwd)
-		}
-		isExist = false
-
-		for i, f := range filesystem {
-			if f.cwd == directoryTracker[len(directoryTracker)-1] {
-				if strings.Contains(scanner.Text(), "dir") {
-					filesystem[i].directories = append(filesystem[i].directories, strings.Split(scanner.Text(), " ")[1])
-					continue filescan
-				}
-
-				fileStrs := strings.Split(scanner.Text(), " ")
-
-				if f.files == nil {
-					m := make(map[string]int)
-					filesystem[i].files = m
-				}
-
-				if num, err := strconv.Atoi(fileStrs[0]); err == nil {
-					filesystem[i].files[fileStrs[1]] = num
-				}
-			}
+		if s, err := strconv.Atoi(line[0]); err == nil {
+			current.fileSizes += s
+			current.files[line[1]] = s
 		}
 	}
 
@@ -133,5 +119,5 @@ filescan:
 		log.Fatal(err)
 	}
 
-	return filesystem
+	return root
 }
