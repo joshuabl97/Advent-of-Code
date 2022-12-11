@@ -163,7 +163,6 @@ func problem2(trees [][]int) int {
 				if len(leftSide) > 0 {
 					s := reusable.ReverseIntSlice(leftSide)
 					for _, otherTree := range s {
-						fmt.Printf("left %v\n", otherTree)
 						if tree <= otherTree {
 							leftCount++
 							break
