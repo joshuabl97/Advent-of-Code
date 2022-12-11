@@ -100,6 +100,35 @@ func TestNestedStringUnique(t *testing.T) {
 	}
 }
 
+func TestReverseIntSlice(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name string
+		args []int
+		want []int
+	}{
+		{
+			name: "input is 1,2,3",
+			args: []int{1, 2, 3},
+			want: []int{3, 2, 1},
+		},
+		{
+			name: "input is 1, 4, 3, 10, 1, 1239867, 57192",
+			args: []int{1, 4, 3, 10, 1, 1239867, 57192},
+			want: []int{57192, 1239867, 1, 10, 3, 4, 1},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ReverseIntSlice(tt.args); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ReverseIntSlice() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestUniqueStrSlice(t *testing.T) {
 	t.Parallel()
 	type args struct {

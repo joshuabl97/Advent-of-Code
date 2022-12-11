@@ -38,6 +38,16 @@ func NestedStringUnique(nestedS [][]string) [][]string {
 	return nestedS
 }
 
+// reverses a slice of ints
+// i.e [1,2,3] -> [3,2,1]
+func ReverseIntSlice(s []int) []int {
+	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
+		s[i], s[j] = s[j], s[i]
+	}
+
+	return s
+}
+
 // inputs a slice of strings and returns a string slice containing only unique characters
 // i.e ["a","b","b","b","c","c"] returns ["a","b","c"]
 func UniqueStrSlice(s []string) []string {
