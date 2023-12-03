@@ -1,13 +1,12 @@
 package main
 
 import (
-	"bufio"
 	"flag"
 	"fmt"
-	"log"
-	"os"
 	"strconv"
 	"strings"
+
+	"github.com/joshuabl97/Advent-of-Code/2023/utils"
 )
 
 var filePath = flag.String("f", "input.txt", "path to the input file")
@@ -15,7 +14,7 @@ var filePath = flag.String("f", "input.txt", "path to the input file")
 func main() {
 	flag.Parse()
 
-	input := parseInput(*filePath)
+	input := utils.GetInputStrings(*filePath)
 	fmt.Printf("Problem 1: %v\n", p1(input))
 	fmt.Printf("Problem 2: %v\n", p2(input))
 }
@@ -157,29 +156,4 @@ func spelledOutToNumber(input string) (int, bool) {
 	}
 
 	return number, found
-}
-
-// each line is a string
-func parseInput(filePath string) []string {
-	f, err := os.Open(filePath)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	defer f.Close()
-
-	scanner := bufio.NewScanner(f)
-
-	var lines []string
-
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
-
-	return lines
 }
