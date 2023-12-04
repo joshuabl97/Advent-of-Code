@@ -48,6 +48,7 @@ func p1(engineMap [][]string) int {
 							numStr += numChar
 						}
 						num, _ := strconv.Atoi(numStr)
+						fmt.Printf("Special number: %v\n", num)
 						total += num
 					}
 
@@ -58,10 +59,11 @@ func p1(engineMap [][]string) int {
 			} else if _, err := strconv.Atoi(symbol); err == nil {
 				// this character is a number
 				currentNum = append(currentNum, symbol)
-
+				fmt.Printf("Row: %v Current char: %v\n", row, symbol)
 				// check top left corner
 				if i != 0 && j != 0 {
-					topleftcorner := engineMap[i-1][i-1]
+					topleftcorner := engineMap[i-1][j-1]
+					fmt.Printf("top left: %v\n", topleftcorner)
 					if topleftcorner != "." {
 						_, err := strconv.Atoi(topleftcorner)
 						if err != nil {
@@ -69,36 +71,47 @@ func p1(engineMap [][]string) int {
 							numIsSpecial = true
 						}
 					}
-					// check top right corner
-				} else if i != 0 && j != len(row) {
+				}
+				// check top right corner
+				if i != 0 && j != len(row)-1 {
 					toprightcorner := engineMap[i-1][j+1]
+					fmt.Printf("top right: %v\n", toprightcorner)
 					if toprightcorner != "." {
 						_, err := strconv.Atoi(toprightcorner)
 						if err != nil {
 							numIsSpecial = true
 						}
 					}
-					// check bottom left corner
-				} else if i != len(engineMap) && j != 0 {
+				}
+
+				// check bottom left corner
+				if i != len(engineMap)-1 && j != 0 {
 					bottomleftcorner := engineMap[i+1][j-1]
+					fmt.Printf("bottom left: %v\n", bottomleftcorner)
 					if bottomleftcorner != "." {
 						_, err := strconv.Atoi(bottomleftcorner)
 						if err != nil {
 							numIsSpecial = true
 						}
 					}
-					// check bottom right corner
-				} else if i != len(engineMap) && j != len(row) {
+				}
+
+				// check bottom right corner
+				if i != len(engineMap)-1 && j != len(row)-1 {
 					bottomrightcorner := engineMap[i+1][j+1]
+					fmt.Printf("bottom right: %v\n", bottomrightcorner)
 					if bottomrightcorner != "." {
 						_, err := strconv.Atoi(bottomrightcorner)
 						if err != nil {
 							numIsSpecial = true
 						}
 					}
-					// check left
-				} else if j != 0 {
+				}
+
+				// check left
+				if j != 0 {
 					left := engineMap[i][j-1]
+					fmt.Printf("left: %v\n", left)
 					if left != "." {
 						_, err := strconv.Atoi(left)
 						if err != nil {
@@ -106,29 +119,38 @@ func p1(engineMap [][]string) int {
 						}
 					}
 					// check above
-				} else if i != 0 {
+				}
+				if i != 0 {
 					top := engineMap[i-1][j]
+					fmt.Printf("top: %v\n", top)
 					if top != "." {
 						_, err := strconv.Atoi(top)
 						if err != nil {
 							numIsSpecial = true
 						}
 					}
-					// check right
-				} else if j != len(row) {
+				}
+
+				// check right
+				if j != len(row)-1 {
 					right := engineMap[i][j+1]
+					fmt.Printf("right: %v\n", right)
 					_, err := strconv.Atoi(right)
 					if err != nil {
 						numIsSpecial = true
 					}
-					// check below
-				} else if i != len(engineMap) {
-					below := engineMap[i-1][j]
+				}
+
+				// check below
+				if i != len(engineMap)-1 {
+					below := engineMap[i+1][j]
+					fmt.Printf("below: %v\n", below)
 					_, err := strconv.Atoi(below)
 					if err != nil {
 						numIsSpecial = true
 					}
 				}
+
 			}
 		}
 	}
