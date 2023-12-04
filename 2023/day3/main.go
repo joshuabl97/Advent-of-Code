@@ -39,24 +39,18 @@ func p1(engineMap [][]string) int {
 		numIsSpecial := false
 
 		for j, symbol := range row {
-			if symbol == "." {
+			if _, err := strconv.Atoi(symbol); err != nil {
 				// we can add the current num and add it to the total only if it is special
-				if len(currentNum) > 0 {
-					if numIsSpecial {
-						numStr := ""
-						for _, numChar := range currentNum {
-							numStr += numChar
-						}
-						num, _ := strconv.Atoi(numStr)
-						fmt.Printf("Special number: %v\n", num)
-						total += num
-					}
-
-					numIsSpecial = false
-					currentNum = []string{}
-
+				if len(currentNum) > 0 && numIsSpecial {
+					numStr := strings.Join(currentNum, "")
+					num, _ := strconv.Atoi(numStr)
+					fmt.Printf("Special number: %v\n", num)
+					total += num
 				}
-			} else if _, err := strconv.Atoi(symbol); err == nil {
+
+				numIsSpecial = false
+				currentNum = []string{}
+			} else {
 				// this character is a number
 				currentNum = append(currentNum, symbol)
 				fmt.Printf("Row: %v Current char: %v\n", row, symbol)
@@ -67,7 +61,6 @@ func p1(engineMap [][]string) int {
 					if topleftcorner != "." {
 						_, err := strconv.Atoi(topleftcorner)
 						if err != nil {
-							// we found a symbol attached to this number and can skip to constructing the rest of the number
 							numIsSpecial = true
 						}
 					}
@@ -135,9 +128,11 @@ func p1(engineMap [][]string) int {
 				if j != len(row)-1 {
 					right := engineMap[i][j+1]
 					fmt.Printf("right: %v\n", right)
-					_, err := strconv.Atoi(right)
-					if err != nil {
-						numIsSpecial = true
+					if right != "." {
+						_, err := strconv.Atoi(right)
+						if err != nil {
+							numIsSpecial = true
+						}
 					}
 				}
 
@@ -146,8 +141,10 @@ func p1(engineMap [][]string) int {
 					below := engineMap[i+1][j]
 					fmt.Printf("below: %v\n", below)
 					_, err := strconv.Atoi(below)
-					if err != nil {
-						numIsSpecial = true
+					if below != "." {
+						if err != nil {
+							numIsSpecial = true
+						}
 					}
 				}
 
